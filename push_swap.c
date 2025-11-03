@@ -6,43 +6,11 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/30 20:44:19 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/02 21:13:30 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	ft_print_array(t_carray *stack, char *c)
-{
-	int	ctrl;
-
-	ctrl = 0;
-	ft_printf("\nStart\n");
-	ft_printf("== Operation : %s ==\n", c);
-	while (ctrl < stack->len)
-	{
-		ft_printf("Number : %d\n", stack->stack[(ctrl + stack->start) % \
-			stack->max]);
-		ctrl++;
-	}
-	ft_printf("End\n");
-}
-
-void	ft_print_list(int *list, int len)
-{
-	int	i;
-
-	i = 0;
-	ft_printf("[");
-	while (len > i)
-	{
-		ft_printf("%d", list[i]);
-		i++;
-		if (i < len)
-			ft_printf(",");
-	}
-	ft_printf("]\n");
-}
 
 int	ft_sorted(t_carray *stack)
 {
@@ -62,40 +30,7 @@ int	ft_sorted(t_carray *stack)
 	return (TRUE);
 }
 
-void ft_test(t_carray *stack, int argc)
-{
-	t_moves	*m_list;
-	t_carray *st_b;
-	int	*num;
-
-	if (argc > 1)
-	{
-		m_list = malloc(sizeof(t_moves));
-		num = ft_calloc(sizeof(int), argc);
-		st_b = ft_new_stack(num, 0, argc);
-		m_list->len = 0;
-		m_list->moves = malloc(sizeof(char *) * 10);
-		ft_print_array(stack, "Before");
-		ft_moves_add(m_list, ft_push(stack, st_b, 'a'));
-		ft_moves_add(m_list, ft_rotate(stack, 'a'));
-		ft_moves_add(m_list, ft_push(stack, st_b, 'a'));
-		ft_moves_add(m_list, ft_swap(stack, 'a'));
-		ft_moves_add(m_list, ft_swap(st_b, 'b'));
-		ft_moves_add(m_list, ft_push(stack, st_b, 'b'));
-		ft_moves_add(m_list, ft_push(stack, st_b, 'a'));
-		ft_moves_add(m_list, ft_rev_rotate(st_b, 'b'));
-		ft_moves_add(m_list, ft_rev_rotate(stack, 'a'));
-		ft_moves_add(m_list, ft_push(stack, stack, 'a'));
-		for (int i = 0; i < m_list->len; i++)
-			ft_printf("Move : %s\n", m_list->moves[i]);
-		ft_print_array(stack, "After");
-		free(m_list->moves);
-		free(m_list);
-		free(st_b);
-	}	
-}
-
-void	ft_moves_add(t_moves *m_list, char *mov)
+void	ft_moves(t_moves *m_list, char *mov)
 {
 	char	*last_move;
 
@@ -103,42 +38,101 @@ void	ft_moves_add(t_moves *m_list, char *mov)
 		last_move = NULL;
 	else
 		last_move = m_list->moves[m_list->len - 1];
-	if (last_move && !ft_strncmp(last_move, "ss", 2)
-			&&	!ft_strncmp(last_move, "rr", 2) && !ft_strncmp(last_move, "rrr", 3))
+	if (last_move && mov[0] == 's' && last_move[0] == 's')
+		if (last_move[1] != 's' && last_move[1] != mov[1])
+			m_list->moves[m_list->len - 1] = "ss";
+	if (last_move && mov[0] == 'r' && last_move[0] == 'r')
 	{
-		if (!ft_strncmp(last_move, "s", 1) && !ft_strncmp(mov, "s", 1))
-			if(ft_strncmp(last_move, mov, 2) != 0)
-				m_list->moves[m_list->len++ - 1] = "ss";
-		if (!ft_strncmp(last_move, "r", 1) && !ft_strncmp(mov, "r", 1))
-		{
-			if(ft_strncmp(last_move, mov, 2) != 0)
-				m_list->moves[m_list->len++ - 1] = "rr";
-			else if (!ft_strncmp(last_move, "r", 1) && !ft_strncmp(mov, "r", 1))
-				if (ft_strncmp(last_move, mov, 3) != 0)
-					m_list->moves[m_list->len++ - 1] = "rrr";
-		}
+		if (last_move[1] != 'r' && mov[1] != 'r' && last_move[1] != mov[1])
+			m_list->moves[m_list->len - 1] = "rr";
+		if (last_move[2] && last_move[2] != 'r' && mov[2]
+			&& mov[2] != 'r' && last_move[2] != mov[2])
+			m_list->moves[m_list->len - 1] = "rrr";
 	}
-	else
+	if (!last_move || !ft_strncmp(last_move, m_list->moves[m_list->len - 1], 3))
 		m_list->moves[m_list->len++] = mov;
 }
 
-int	main(int argc, char **argv)
+int	ft_log(int len, int base)
 {
-	int			*arg_a;
-	int			check;
-	int			len;
-	t_carray	*stack_a;
+	int log_base;
+	int result;
+	int log;
 
-	arg_a = NULL;
-	len = 0;
-	arg_a = ft_parsing(argc, argv, &len);
-	if (len < 2)
-		ft_error(arg_a, NULL, FALSE);
-	check = ft_dup_check(arg_a, len);
-	stack_a = ft_new_stack(arg_a, len, len);
-	if (ft_sorted(stack_a))
-		ft_error(stack_a->stack, stack_a, FALSE);
-	ft_test(stack_a, len);
-	ft_push_free(stack_a->stack, stack_a);
-	return (FALSE);
+	log = 0;
+	log_base = base;
+	result = len;
+	if (len < 10)
+	{
+		log = 2;
+		return (log);
+	}
+	while (result > log_base)
+	{
+		result = len / log_base;
+		log++;
+	}
+	log++;
+	return (log);
+}
+
+t_moves	*ft_move_add(int llen)
+{
+	t_moves	*list;
+	int		max;
+
+	max = llen * ft_log(llen, 10) + 1;
+	list = malloc(sizeof(t_moves));
+	list->len = 0;
+	list->max = max;
+	list->moves = ft_calloc(sizeof(char *), max);
+	return (list);
+}
+
+int	ft_cluster(int len)
+{
+	int size;
+
+	size = 0;
+	if (len > 3)
+		size = len / 3;
+	size++;
+	return (size);
+}
+
+void	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
+{
+	int	cluster;
+	int	max;
+	int min;
+
+	cluster = ft_cluster(sta->len);
+	max = ft_find_xtreme(sta->stack, sta->len, ft_bigger);
+	min = ft_find_xtreme(sta->stack, sta->len, ft_smaller);
+	if (sta->len == sta->max && ft_sorted(sta))
+		return ;
+	if (list->len - 1 == list->max)
+		return ;
+	while (sta->len > cluster)
+	{
+		if (sta->stack[sta->start] > ft_next(sta))
+			ft_moves(list, ft_push(sta, stb, 'a')); 
+	}
+	ft_print_array(stb, "Stack B");
+}	
+
+void	ft_push_swap(t_carray *stack)
+{
+	t_moves	*list;
+	t_carray *st_b;
+	int	*num;
+
+	num = ft_calloc(sizeof(int), stack->len);
+	list = ft_move_add(stack->len);
+	st_b = ft_new_stack(num, 0, stack->len);
+	ft_push_alg(list, stack, st_b);
+	ft_print_move(list);
+	ft_push_free(st_b->stack, st_b);
+	free(list->moves);
+	free(list);
 }

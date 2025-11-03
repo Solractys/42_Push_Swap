@@ -6,7 +6,7 @@
 #    By: buehara <buehara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 18:38:10 by buehara           #+#    #+#              #
-#    Updated: 2025/10/23 20:22:11 by buehara          ###   ########.fr        #
+#    Updated: 2025/11/01 16:49:24 by buehara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ SRCS = \
 	push_heap_sort.c		\
 	push_shell_sort.c		\
 	push_count_sort.c		\
-	push_radix_sort.c
+	push_radix_sort.c		\
+	main.c
 	
 
 OBJS = $(SRCS:.c=.o)

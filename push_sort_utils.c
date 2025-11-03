@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 16:27:12 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/29 17:55:27 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/02 17:44:50 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ int	ft_smaller(int a, int b)
 
 int	ft_find_xtreme(int *list, int len, int (*f) (int, int))
 {
-	int max;
+	int result;
 	int	idx;
 
 	idx = 0;
-	max = list[0];
-	while (f(idx,len))
+	result = list[0];
+	while (idx < len)
 	{
-		if (list[idx] > max)
-			max = list[idx];
+		if (f(list[idx], result))
+			result = list[idx];
 		idx++;
 	}
-	return (max);
+	return (result);
 }
 
 int	ft_find_digits(int *list, int len)

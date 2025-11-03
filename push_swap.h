@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/30 20:13:22 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/02 21:06:59 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ enum e_stackPosition
 
 typedef struct s_moves
 {
-	int len;
-	char **moves;
+	int		len;
+	int		max;
+	char	**moves;
 }				t_moves;
 
 typedef struct s_carray
@@ -53,17 +54,31 @@ void		ft_test(t_carray *stack, int argc);
 void		ft_print_array(t_carray *stack, char *c);
 void		ft_print_list(int *list, int len);
 
+//		MAIN
+// ============================================================= ||
+
+void		ft_push_swap(t_carray *stack);
+
 // 		Functions Utils
 // ============================================================= ||
 
 int			ft_isspace(int c);
+int			ft_sorted(t_carray *stack);
+int			*ft_copy_better(int *list, int len);
 void		ft_error(void *arg, t_carray *stack, int check);
 void		ft_push_free(int *arg, t_carray *stack);
 void		ft_str_free(char **list);
 
+//		Math Functions
+// ============================================================= ||
+
+int			ft_log(int len, int base);
+
 // 		Functions Stacks
 // ============================================================= ||
 
+int			ft_before(t_carray *stack);
+int			ft_next(t_carray *stack);
 void		ft_att_tcarray(t_carray *stack, int start, int end, int len);
 t_carray	*ft_new_stack(void *content, int len, int max);
 
@@ -74,6 +89,7 @@ char		*ft_rev_rotate(t_carray *stack, char c);
 void		ft_rotate_base(t_carray *stack, char direction);
 void		ft_swap_base(t_carray *stk_a, int idx_a, \
 						t_carray *stk_b, int idx_b);
+void		ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
 
 // 		Functions Parsing
 // ============================================================= ||
@@ -86,7 +102,10 @@ char		*ft_rev_split(int n, char **args, char c);
 
 //		Moves List
 // ============================================================= ||
-void		ft_moves_add(t_moves *m_list, char *mov);
+
+void		ft_print_move(t_moves *list);
+void		ft_moves(t_moves *m_list, char *mov);
+t_moves		*ft_move_add(int llen);
 
 //		Sort Functions
 //============================================================== ||
