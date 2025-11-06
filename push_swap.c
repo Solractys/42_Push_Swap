@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/02 21:13:30 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/04 21:00:58 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,30 @@ int	ft_sorted(t_carray *stack)
 
 void	ft_moves(t_moves *m_list, char *mov)
 {
-	char	*last_move;
+	char	*last;
 
+	if (m_list->len == m_list->max - 1)
+		return ;
 	if (m_list->len == 0)
-		last_move = NULL;
+		last = NULL;
 	else
-		last_move = m_list->moves[m_list->len - 1];
-	if (last_move && mov[0] == 's' && last_move[0] == 's')
-		if (last_move[1] != 's' && last_move[1] != mov[1])
+		last = m_list->moves[m_list->len - 1];
+	if (last && mov && mov[0] == 's' && last[0] == 's')
+		if (last[1] != 's' && last[1] != mov[1])
 			m_list->moves[m_list->len - 1] = "ss";
-	if (last_move && mov[0] == 'r' && last_move[0] == 'r')
+	if (last && mov && mov[0] == 'r' && last[0] == 'r')
 	{
-		if (last_move[1] != 'r' && mov[1] != 'r' && last_move[1] != mov[1])
+		if (last[1] != 'r' && mov[1] != 'r' && last[1] != mov[1])
 			m_list->moves[m_list->len - 1] = "rr";
-		if (last_move[2] && last_move[2] != 'r' && mov[2]
-			&& mov[2] != 'r' && last_move[2] != mov[2])
+		if (last[2] && last[2] != 'r' && mov[2] && mov[2] != 'r' 
+				&& last[2] != mov[2])
 			m_list->moves[m_list->len - 1] = "rrr";
 	}
-	if (!last_move || !ft_strncmp(last_move, m_list->moves[m_list->len - 1], 3))
-		m_list->moves[m_list->len++] = mov;
+	if (!last || !ft_strncmp(last, m_list->moves[m_list->len - 1], 3))
+	{
+		m_list->moves[m_list->len] = mov;
+		m_list->len++;
+	}
 }
 
 int	ft_log(int len, int base)
@@ -81,7 +86,8 @@ t_moves	*ft_move_add(int llen)
 	t_moves	*list;
 	int		max;
 
-	max = llen * ft_log(llen, 10) + 1;
+	//max = llen * (ft_log(llen, 10) + 1);
+	max = llen * 10;
 	list = malloc(sizeof(t_moves));
 	list->len = 0;
 	list->max = max;
@@ -89,36 +95,40 @@ t_moves	*ft_move_add(int llen)
 	return (list);
 }
 
-int	ft_cluster(int len)
+int	ft_chunks(int len)
 {
 	int size;
 
 	size = 0;
-	if (len > 3)
-		size = len / 3;
-	size++;
+	if (len > 6)
+		size = len / 3 + 1;
+	else
+		size = len;
 	return (size);
 }
 
 void	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 {
-	int	cluster;
-	int	max;
-	int min;
+//	int	chunks;
 
-	cluster = ft_cluster(sta->len);
-	max = ft_find_xtreme(sta->stack, sta->len, ft_bigger);
-	min = ft_find_xtreme(sta->stack, sta->len, ft_smaller);
+//	chunks = ft_chunks(sta->len);
 	if (sta->len == sta->max && ft_sorted(sta))
 		return ;
-	if (list->len - 1 == list->max)
-		return ;
-	while (sta->len > cluster)
+	ft_moves(list, ft_push(sta, stb, 'a'));
+	ft_moves(list, ft_rotate(stb, 'u')); 
+	ft_print_list(sta, sta->len);
+	ft_print_list(stb, stb->len);
+	if (sta->stack[sta->start] < sta->stack[ft_next(sta, sta->start)])
 	{
-		if (sta->stack[sta->start] > ft_next(sta))
-			ft_moves(list, ft_push(sta, stb, 'a')); 
+		ft_moves(list, ft_rotate(sta, 'u')); 
+		ft_print_list(sta, sta->len);
 	}
-	ft_print_array(stb, "Stack B");
+	if (sta->len < stb->len)
+		ft_push(sta, stb, 'b');
+	if (list->len == list->max - 1)
+		return ;
+	ft_push_alg(list, sta, stb);
+	ft_push(sta, stb, 'b');
 }	
 
 void	ft_push_swap(t_carray *stack)
@@ -129,6 +139,7 @@ void	ft_push_swap(t_carray *stack)
 
 	num = ft_calloc(sizeof(int), stack->len);
 	list = ft_move_add(stack->len);
+	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
 	st_b = ft_new_stack(num, 0, stack->len);
 	ft_push_alg(list, stack, st_b);
 	ft_print_move(list);

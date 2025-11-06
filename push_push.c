@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:06:56 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/15 16:43:24 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/05 21:03:45 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_push(t_carray *stack_a, t_carray *stack_b, char direction)
 {
 	char	*push;
 
-	if (direction == 'a')
+	if (direction == 'b')
 	{
 		if (stack_a->len < 1)
 			return (NULL);
@@ -35,4 +35,14 @@ char	*ft_push(t_carray *stack_a, t_carray *stack_b, char direction)
 		ft_att_tcarray(stack_b, POS_DOWN, POS_KEEP, LEN_MINUS);
 	}
 	return (push);
+}
+
+char	*push_a(t_carray *sta, t_carray *stb)
+{
+	return (ft_push(sta, stb, 'a'));
+}
+
+char	*push_b(t_carray *sta, t_carray *stb)
+{
+	return (ft_push(sta, stb, 'b'));
 }

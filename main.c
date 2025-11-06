@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:35 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/02 21:13:37 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/04 14:33:58 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,35 @@
 
 void	ft_print_array(t_carray *stack, char *c)
 {
-	int	ctrl;
+	int	i;
+	int start;
 
-	ctrl = 0;
+	i = 0;
+	start = stack->start;
 	ft_printf("\nStart\n");
 	ft_printf("== Operation : %s ==\n", c);
-	while (ctrl < stack->len)
+	while (i < stack->len)
 	{
-		ft_printf("Number : %d\n", stack->stack[(ctrl + stack->start) % \
-			stack->max]);
-		ctrl++;
+		ft_printf("N : %d\n", stack->stack[start]);
+		i++;
+		start = (i + stack->start) % stack->max;
 	}
 	ft_printf("End\n\n");
 }
 
-void	ft_print_list(int *list, int len)
+void	ft_print_list(t_carray *stack, int len)
 {
 	int	i;
+	int start;
 
 	i = 0;
 	ft_printf("[");
+	start = stack->start;
 	while (len > i)
 	{
-		ft_printf("%d", list[i]);
+		ft_printf("%d", stack->stack[start]);
 		i++;
+		start = (stack->start + i) % stack->max;
 		if (i < len)
 			ft_printf(",");
 	}
@@ -58,23 +63,91 @@ void ft_test(t_carray *stack, int argc)
 		m_list->len = 0;
 		m_list->moves = ft_calloc(sizeof(char *), 30);
 		ft_print_array(stack, "Before");
+		
+		ft_printf("\nlinha 1\n");
 		ft_moves(m_list, ft_push(stack, st_b, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 2\n");
 		ft_moves(m_list, ft_rotate(stack, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 3\n");
 		ft_moves(m_list, ft_push(stack, st_b, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 4\n");
 		ft_moves(m_list, ft_swap(stack, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 5\n");
 		ft_moves(m_list, ft_swap(stack, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 6\n");
 		ft_moves(m_list, ft_swap(st_b, 'b'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 7\n");
 		ft_moves(m_list, ft_push(stack, st_b, 'b'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 8\n");
 		ft_moves(m_list, ft_push(stack, st_b, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 9\n");
 		ft_moves(m_list, ft_rotate(st_b, 'b'));
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 10\n");
 		ft_moves(m_list, ft_rotate(stack, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 11\n");
 		ft_moves(m_list, ft_rev_rotate(st_b, 'b'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 12\n");
 		ft_moves(m_list, ft_rev_rotate(stack, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 13\n");
 		ft_moves(m_list, ft_rev_rotate(st_b, 'b'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 14\n");
 		ft_moves(m_list, ft_rotate(st_b, 'b'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 15\n");
 		ft_moves(m_list, ft_rotate(stack, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 16\n");
 		ft_moves(m_list, ft_rotate(st_b, 'b'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
+		ft_printf("\nlinha 17\n");
 		ft_moves(m_list, ft_push(stack, stack, 'a'));
+		ft_print_list(stack, stack->len);
+		ft_print_list(st_b, st_b->len);
+
 		for (int i = 0; i < m_list->len; i++)
 			ft_printf("Move : %s\n", m_list->moves[i]);
 		ft_print_array(stack, "After");
@@ -153,12 +226,12 @@ int	main(int argc, char **argv)
 		ft_error(arg_a, NULL, FALSE);
 	check = ft_dup_check(arg_a, len);
 	arg_a = ft_copy_better(arg_a, len);
-	ft_print_list(arg_a, len);
 	stack_a = ft_new_stack(arg_a, len, len);
 	if (ft_sorted(stack_a))
 		ft_error(stack_a->stack, stack_a, FALSE);
 //	ft_test(stack_a, len);
-//	ft_push_swap(stack_a);
+	ft_print_list(stack_a, stack_a->len);
+	ft_push_swap(stack_a);
 	ft_print_array(stack_a, "Stack A");
 	ft_push_free(stack_a->stack, stack_a);
 	return (FALSE);

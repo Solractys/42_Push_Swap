@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/02 21:06:59 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/05 21:03:09 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,32 @@ enum e_stackPosition
 	LEN_MINUS = -1
 };
 
+enum e_maskr
+{
+    PZERO = 64,
+    RZERO = 32,
+    RSEC = 16,
+    SZERO = 8,
+    DOUBLE = 4,
+    AMASK = 2,
+    BMASK = 1
+};
+	
+enum e_maska
+{
+    PB = 65,
+    PA = 66,
+    RRA = 50,
+    RRB = 49,
+	RRR = 52,
+    RA = 34,
+    RB = 33,
+	RR = 36,
+    SA = 10,
+    SB = 9,
+	SS = 12 
+};
+
 typedef struct s_moves
 {
 	int		len;
@@ -52,7 +78,7 @@ typedef struct s_carray
 // 		Test Functions
 void		ft_test(t_carray *stack, int argc);
 void		ft_print_array(t_carray *stack, char *c);
-void		ft_print_list(int *list, int len);
+void		ft_print_list(t_carray *stack, int len);
 
 //		MAIN
 // ============================================================= ||
@@ -78,15 +104,23 @@ int			ft_log(int len, int base);
 // ============================================================= ||
 
 int			ft_before(t_carray *stack);
-int			ft_next(t_carray *stack);
+int			ft_next(t_carray *stack, int index);
 void		ft_att_tcarray(t_carray *stack, int start, int end, int len);
 t_carray	*ft_new_stack(void *content, int len, int max);
 
 char		*ft_swap(t_carray *stack, char c);
+char		*swap_a(t_carray *sta, t_carray *stb);
+char		*swap_b(t_carray *sta, t_carray *stb);
 char		*ft_push(t_carray *stack_a, t_carray *stack_b, char direction);
+char		*push_a(t_carray *sta, t_carray *stb);
+char		*push_b(t_carray *sta, t_carray *stb);
 char		*ft_rotate(t_carray *stack, char c);
+char		*rotate_a(t_carray *sta, t_carray *stb);
+char		*rotate_b(t_carray *sta, t_carray *stb);
 char		*ft_rev_rotate(t_carray *stack, char c);
-void		ft_rotate_base(t_carray *stack, char direction);
+char		*rev_rotate_a(t_carray *sta, t_carray *stb);
+char		*rev_rotate_b(t_carray *sta, t_carray *stb);
+void		ft_rotate_base(t_carray *stk, char direction);
 void		ft_swap_base(t_carray *stk_a, int idx_a, \
 						t_carray *stk_b, int idx_b);
 void		ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
@@ -103,6 +137,7 @@ char		*ft_rev_split(int n, char **args, char c);
 //		Moves List
 // ============================================================= ||
 
+int			move_check(char *mov);
 void		ft_print_move(t_moves *list);
 void		ft_moves(t_moves *m_list, char *mov);
 t_moves		*ft_move_add(int llen);

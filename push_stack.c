@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 13:56:35 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/02 21:05:55 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/04 13:50:48 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	ft_att_tcarray(t_carray *stack, int start, int end, int len)
 	stack->end = (stack->end + (stack->max - 1) + (end)) % stack->max;
 }
 
-int	ft_next(t_carray *stack)
+int	ft_next(t_carray *stack, int index)
 {
 	int	next;
 
-	next = (stack->start + (stack->max - 1) + (POS_DOWN)) % stack->max;
+	next = (index + 1) % stack->max;
 	return (next);
 }
 
