@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:35 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/04 14:33:58 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/07 19:16:08 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,20 @@ int	*ft_copy_better(int *list, int len)
 	return (cpy);
 }
 
+int	ft_check_args(int argc, char **argv)
+{
+	int	index;
+
+	index = 1;
+	while (index < argc)
+	{
+		if (argv[index][0] == '\0')
+			return (TRUE);
+		index++;
+	}
+	return (FALSE);
+}
+
 int	main(int argc, char **argv)
 {
 	int			*arg_a;
@@ -219,6 +233,8 @@ int	main(int argc, char **argv)
 	int			len;
 	t_carray	*stack_a;
 
+	if (ft_check_args(argc, argv))
+		ft_error(NULL, (t_carray *) NULL, TRUE);
 	arg_a = NULL;
 	len = 0;
 	arg_a = ft_parsing(argc, argv, &len);
@@ -230,7 +246,7 @@ int	main(int argc, char **argv)
 	if (ft_sorted(stack_a))
 		ft_error(stack_a->stack, stack_a, FALSE);
 //	ft_test(stack_a, len);
-	ft_print_list(stack_a, stack_a->len);
+//	ft_print_list(stack_a, stack_a->len);
 	ft_push_swap(stack_a);
 	ft_print_array(stack_a, "Stack A");
 	ft_push_free(stack_a->stack, stack_a);

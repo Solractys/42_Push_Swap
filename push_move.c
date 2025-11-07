@@ -6,18 +6,35 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:15:19 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/05 20:20:07 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/07 19:12:23 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+t_mfunc	func_list(int index)
+{
+	static t_mfunc	map[TOTALMOVES];
+
+	map[PB] = &push_b;
+	map[RRA] = &rev_rotate_a;
+	map[RA] = &rotate_a;
+	map[SA] = &swap_a;
+	map[SB] = &swap_b;
+	map[RB] = &rotate_b;
+	map[RRB] = &rev_rotate_b;
+	map[PA] = &push_a;
+
+	return (map[index]);
+};
 
 int	move_check(char *mov)
 {
 	int	bit_move;
 
 	if (!mov)
-		return ;
+		return (FALSE);
+	bit_move = 0;
 	if (mov[0] == 'r')
 		bit_move |= RZERO;
 	else if (mov[0] == 's')
@@ -34,3 +51,4 @@ int	move_check(char *mov)
 		bit_move |= BMASK;
 	return (bit_move);
 }
+

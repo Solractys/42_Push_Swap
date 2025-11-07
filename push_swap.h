@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/05 21:03:09 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/07 19:13:36 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,15 @@ enum e_maskr
 	
 enum e_maska
 {
-    PB = 65,
-    PA = 66,
-    RRA = 50,
-    RRB = 49,
-	RRR = 52,
-    RA = 34,
-    RB = 33,
-	RR = 36,
-    SA = 10,
-    SB = 9,
-	SS = 12 
+    PB,
+    RRA,
+    RA,
+    SA,
+    SB,
+    RB,
+    RRB,
+    PA,
+	TOTALMOVES
 };
 
 typedef struct s_moves
@@ -74,6 +72,8 @@ typedef struct s_carray
 	int	max;
 	int	*stack;
 }				t_carray;
+
+typedef char	*(*t_mfunc)(t_carray *stack_a, t_carray *stack_b); 
 
 // 		Test Functions
 void		ft_test(t_carray *stack, int argc);
@@ -128,6 +128,7 @@ void		ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
 // 		Functions Parsing
 // ============================================================= ||
 
+int			ft_check_args(int argc, char **argv);
 int			ft_count_int(char **list);
 int			ft_digit_check(char **argv);
 int			*ft_parsing(int argc, char **argv, int *len);
@@ -141,6 +142,7 @@ int			move_check(char *mov);
 void		ft_print_move(t_moves *list);
 void		ft_moves(t_moves *m_list, char *mov);
 t_moves		*ft_move_add(int llen);
+t_mfunc		func_list(int list);
 
 //		Sort Functions
 //============================================================== ||
