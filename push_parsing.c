@@ -6,16 +6,24 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 13:54:57 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/17 14:44:43 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/07 17:22:25 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+int	ft_issignal(int c)
+{
+	if (c == '+' || c == '-')
+		return (TRUE);
+	return (FALSE);
+}
+
 int	ft_digit_check(char **str)
 {
-	int	ct;
-	int	i;
+	int		ct;
+	int		i;
+	char	ch;
 
 	ct = 1;
 	while (str[ct])
@@ -23,8 +31,14 @@ int	ft_digit_check(char **str)
 		i = 0;
 		while (str[ct][i])
 		{
-			if (!ft_isdigit(str[ct][i]) && !ft_isspace(str[ct][i]) &&
-						!(str[ct][i] == '-') && !(str[ct][i] == '+'))
+			ch = str[ct][i];
+			if (!ft_isdigit(ch) && !ft_isspace(ch) && !ft_issignal(ch))
+				ft_error(NULL, (t_carray *) NULL, TRUE);
+			if (ft_issignal(ch) && ft_issignal(str[ct][i+1]))
+				ft_error(NULL, (t_carray *) NULL, TRUE);
+			if (ft_issignal(ch) && str[ct][i+1] == ' ')
+				ft_error(NULL, (t_carray *) NULL, TRUE);
+			if (ft_issignal(ch) && str[ct][i-1] && !ft_isspace(str[ct][i-1]))
 				ft_error(NULL, (t_carray *) NULL, TRUE);
 			i++;
 		}

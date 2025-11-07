@@ -6,7 +6,7 @@
 #    By: buehara <buehara@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/01 18:38:10 by buehara           #+#    #+#              #
-#    Updated: 2025/11/05 21:02:31 by buehara          ###   ########.fr        #
+#    Updated: 2025/11/06 16:46:10 by buehara          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS = \
 	push_count_sort.c		\
 	push_radix_sort.c		\
 	push_rev_rotate.c		\
+	push_move.c				\
 	main.c
 	
 
