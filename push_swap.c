@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/07 18:01:00 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/11 20:38:26 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,35 @@ int	ft_sorted(t_carray *stack)
 {
 	int	temp;
 	int	ctrl;
+	int start;
 
 	ctrl = 0;
-	temp = stack->stack[ctrl];
-	ctrl++;
+	start = stack->start;
+	temp = stack->stack[start];
+	if (stack->len == 0)
+		return (FALSE);
 	while (ctrl < stack->len)
 	{
-		if (temp > stack->stack[ctrl])
-			return (FALSE);
-		temp = stack->stack[ctrl];
 		ctrl++;
+		start = (ctrl + stack->start) % stack->max;
+		if (temp > stack->stack[start])
+			return (FALSE);
+		temp = stack->stack[start];
 	}
 	return (TRUE);
 }
 
 void	ft_moves(t_moves *m_list, char *mov)
 {
-	static int	last;
+	int	last;
 	int			bit_move;
 
-	if (m_list->len == m_list->max - 1)
+	if (m_list->len == m_list->max - 1 || mov == NULL)
 		return ;
 	if (m_list->len == 0)
 		last = 0;
+	else
+		last = move_check(m_list->moves[m_list->len - 1]);
 	bit_move = move_check(mov);
 	if (last && (bit_move ^ last) == 3)
 	{
@@ -54,7 +60,6 @@ void	ft_moves(t_moves *m_list, char *mov)
 	}
 	if (!last || last == move_check(m_list->moves[m_list->len - 1]))
 		m_list->moves[m_list->len++] = mov;
-	last = move_check(m_list->moves[m_list->len - 1]);
 }
 
 int	ft_log(int len, int base)
@@ -85,7 +90,7 @@ t_moves	*ft_move_add(int llen)
 	t_moves	*list;
 	int		max;
 
-	max = llen * (1.15 * ft_log(llen, 2)) + 1;
+	max = llen * (1.155 * ft_log(llen, 2)) + 1;
 	list = malloc(sizeof(t_moves));
 	list->len = 0;
 	list->max = max;
@@ -96,35 +101,57 @@ t_moves	*ft_move_add(int llen)
 int	ft_chunks(int len)
 {
 	int size;
+	int	stacks;
 
 	size = 0;
-	if (len > 3)
-		size = (len / 3) + 1;
+	stacks = 3;
+	if (len > stacks)
+		size = (len / stacks) + 1;
 	else
 		size = len;
 	return (size);
 }
 
-void	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
+int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 {
-	int	chunks;
-	int	idx;
+//	int	chunks;
+	int		idx;
+	int		check;
+	char	*mov;
 	t_mfunc	ft;
 
-	chunks = ft_chunks(sta->len);
-	if (chunks > 3)
-		ft_push_alg(list, sta, stb);
-	if (sta->len == sta->max && ft_sorted(sta))
-		return ;
+//	chunks = ft_chunks(sta->len);
+//	if (chunks > 3)
+//		ft_push_alg(list, sta, stb);
+	if ((sta->len == sta->max) && ft_sorted(sta))
+		return (TRUE);
+	if (list->len == list->max - 1)
+		return (FALSE);
 	idx = 0;
-	while (!ft_sorted(sta))
+	check = 0;
+	while (!ft_sorted(sta) && idx < TOTALMOVES)
 	{
 		ft = func_list(idx);
-		ft_moves(list, ft(sta, stb));
+		if ((idx == PB && sta->len == 0) || (idx == PA && stb->len == 0))
+			return (FALSE);
+		mov = ft(sta,stb);
+		if (mov == NULL)
+			return (FALSE);
+		if (move_dub(mov, list))
+		{
+			ft_moves(list, mov);
+			check = ft_push_alg(list, sta, stb);
+		}
+		idx++;
+		if (move_dub(mov, list) && check == FALSE && !ft_sorted(sta))
+			move_return(list, sta, stb);
+//		else
+//			return (TRUE);
 	}
-	ft_print_list(sta, sta->len);	
-	ft_print_list(stb, stb->len);
-	ft_print_move(list);	
+//	ft_print_list(sta, sta->len);	
+//	ft_print_list(stb, stb->len);
+//	ft_print_move(list);
+	return (FALSE);
 }	
 
 void	ft_push_swap(t_carray *stack)
@@ -135,10 +162,12 @@ void	ft_push_swap(t_carray *stack)
 
 	num = ft_calloc(sizeof(int), stack->len);
 	list = ft_move_add(stack->len);
-	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
+//	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
 	st_b = ft_new_stack(num, 0, stack->len);
 	ft_push_alg(list, stack, st_b);
 	ft_print_move(list);
+	ft_print_list(stack, stack->len);
+//	ft_print_list(st_b, st_b->len);
 	ft_push_free(st_b->stack, st_b);
 	free(list->moves);
 	free(list);

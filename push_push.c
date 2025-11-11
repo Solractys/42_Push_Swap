@@ -6,12 +6,19 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:06:56 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/05 21:03:45 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/11 17:53:15 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+void	ft_push(t_carray *stack_a, t_carray *stack_b)
+{
+		ft_att_tcarray(stack_b, POS_UP, POS_KEEP, LEN_ADD);
+		ft_swap_base(stack_a, stack_a->start, stack_b, stack_b->start);
+		ft_att_tcarray(stack_a, POS_DOWN, POS_KEEP, LEN_MINUS);
+}
+/*
 char	*ft_push(t_carray *stack_a, t_carray *stack_b, char direction)
 {
 	char	*push;
@@ -25,7 +32,7 @@ char	*ft_push(t_carray *stack_a, t_carray *stack_b, char direction)
 		ft_swap_base(stack_a, stack_a->start, stack_b, stack_b->start);
 		ft_att_tcarray(stack_a, POS_DOWN, POS_KEEP, LEN_MINUS);
 	}
-	else
+	if (direction == 'a')
 	{
 		if (stack_b->len < 1)
 			return (NULL);
@@ -35,14 +42,20 @@ char	*ft_push(t_carray *stack_a, t_carray *stack_b, char direction)
 		ft_att_tcarray(stack_b, POS_DOWN, POS_KEEP, LEN_MINUS);
 	}
 	return (push);
-}
+}*/
 
 char	*push_a(t_carray *sta, t_carray *stb)
 {
-	return (ft_push(sta, stb, 'a'));
+	if (sta->len < 1)
+		return (NULL);
+	ft_push(sta, stb);
+	return ("pa");
 }
 
 char	*push_b(t_carray *sta, t_carray *stb)
 {
-	return (ft_push(sta, stb, 'b'));
+	if (stb->len < 1)
+		return (NULL);
+	ft_push(stb, sta);
+	return ("pb");
 }

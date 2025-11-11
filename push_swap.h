@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/07 19:13:36 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/11 19:48:38 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,30 @@ enum e_maskr
 	
 enum e_maska
 {
-    PB,
-    RRA,
     RA,
+    RRA,
     SA,
+	PB,
     SB,
     RB,
     RRB,
     PA,
 	TOTALMOVES
+};
+
+enum e_maskf
+{
+	SBCK = 9,
+	SACK = 10,
+	SSCK = 12,
+	RBCK = 33,
+	RACK = 34,
+	RRCK = 36,
+	RRBCK = 49,
+	RRACK = 50,
+	RRRCK = 52,
+	PBCK = 65,
+	PACK = 66
 };
 
 typedef struct s_moves
@@ -111,7 +126,7 @@ t_carray	*ft_new_stack(void *content, int len, int max);
 char		*ft_swap(t_carray *stack, char c);
 char		*swap_a(t_carray *sta, t_carray *stb);
 char		*swap_b(t_carray *sta, t_carray *stb);
-char		*ft_push(t_carray *stack_a, t_carray *stack_b, char direction);
+void		ft_push(t_carray *stack_a, t_carray *stack_b);
 char		*push_a(t_carray *sta, t_carray *stb);
 char		*push_b(t_carray *sta, t_carray *stb);
 char		*ft_rotate(t_carray *stack, char c);
@@ -123,7 +138,7 @@ char		*rev_rotate_b(t_carray *sta, t_carray *stb);
 void		ft_rotate_base(t_carray *stk, char direction);
 void		ft_swap_base(t_carray *stk_a, int idx_a, \
 						t_carray *stk_b, int idx_b);
-void		ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
+int		ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
 
 // 		Functions Parsing
 // ============================================================= ||
@@ -139,8 +154,10 @@ char		*ft_rev_split(int n, char **args, char c);
 // ============================================================= ||
 
 int			move_check(char *mov);
+	int			move_dub(char *mov, t_moves *list);
 void		ft_print_move(t_moves *list);
 void		ft_moves(t_moves *m_list, char *mov);
+void		move_return(t_moves *list, t_carray *sta, t_carray *stb);
 t_moves		*ft_move_add(int llen);
 t_mfunc		func_list(int list);
 
