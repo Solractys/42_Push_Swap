@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/11 20:38:26 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/12 20:27:08 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_sorted(t_carray *stack)
 	temp = stack->stack[start];
 	if (stack->len == 0)
 		return (FALSE);
-	while (ctrl < stack->len)
+	while (ctrl < stack->len - 1)
 	{
 		ctrl++;
 		start = (ctrl + stack->start) % stack->max;
@@ -123,27 +123,26 @@ int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 //	chunks = ft_chunks(sta->len);
 //	if (chunks > 3)
 //		ft_push_alg(list, sta, stb);
-	if ((sta->len == sta->max) && ft_sorted(sta))
+	if (sta->len == sta->max && ft_sorted(sta) && stb->len == 0)
 		return (TRUE);
 	if (list->len == list->max - 1)
 		return (FALSE);
-	idx = 0;
+	idx = -1;
 	check = 0;
-	while (!ft_sorted(sta) && idx < TOTALMOVES)
+	while (idx < TOTALMOVES - 1 && (!ft_sorted(sta) || stb->len != 0))
 	{
+		idx++;
+		if (!move_dub(idx, list, sta, stb))
+			continue ;
 		ft = func_list(idx);
-		if ((idx == PB && sta->len == 0) || (idx == PA && stb->len == 0))
-			return (FALSE);
 		mov = ft(sta,stb);
 		if (mov == NULL)
-			return (FALSE);
-		if (move_dub(mov, list))
-		{
-			ft_moves(list, mov);
-			check = ft_push_alg(list, sta, stb);
-		}
-		idx++;
-		if (move_dub(mov, list) && check == FALSE && !ft_sorted(sta))
+			continue ;
+		ft_moves(list, mov);
+		check = ft_push_alg(list, sta, stb);
+		if (check)
+			return (TRUE);
+		if (check == FALSE && !ft_sorted(sta))
 			move_return(list, sta, stb);
 //		else
 //			return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/11 19:48:38 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/12 16:14:02 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ char		*ft_rev_split(int n, char **args, char c);
 // ============================================================= ||
 
 int			move_check(char *mov);
-	int			move_dub(char *mov, t_moves *list);
+int			move_dub(int mov, t_moves *list, t_carray *sta, t_carray *stb);
 void		ft_print_move(t_moves *list);
 void		ft_moves(t_moves *m_list, char *mov);
 void		move_return(t_moves *list, t_carray *sta, t_carray *stb);

@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:15:19 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/11 20:21:25 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/12 18:21:03 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	move_check(char *mov)
 		bit_move |= DOUBLE;
 	if (mov[1] == 'a' || mov[2] == 'a')
 		bit_move |= AMASK;
-	else if (mov[1] == 'b' || mov[2] == 'b')
+	if (mov[1] == 'b' || mov[2] == 'b')
 		bit_move |= BMASK;
 	return (bit_move);
 }
-
-int	move_dub(char *mov, t_moves *list)
+/*
+int	move_dub(char *mov, t_moves *list, t_carray *sta, t_carray *stb)
 {
 	int	flag;
 	int	last;
@@ -61,6 +61,8 @@ int	move_dub(char *mov, t_moves *list)
 		return (TRUE);
 	flag = move_check(mov);
 	last = move_check(list->moves[list->len - 1]);
+	if ((flag == PBCK && sta->len == 0) || (flag == PACK && stb->len == 0))
+		return (FALSE);
 	if (flag == SACK && last == SACK)
 		return (FALSE);
 	if (flag == SBCK && last == SBCK)
@@ -72,6 +74,30 @@ int	move_dub(char *mov, t_moves *list)
 	if ((flag == PBCK && last == PACK) || (flag == PACK && last == PBCK))
 		return (FALSE);
 	return (TRUE);
+}*/
+
+int	move_dub(int mov, t_moves *list, t_carray *sta, t_carray *stb)
+{
+	int	flag;
+	int	last;
+
+	if (list->len == 0)
+		return (TRUE);
+	flag = mov;
+	last = move_check(list->moves[list->len - 1]);
+	if ((flag == PB && sta->len == 0) || (flag == PA && stb->len == 0))
+		return (FALSE);
+	if (flag == SA && last == SACK)
+		return (FALSE);
+	if (flag == SB && last == SBCK)
+		return (FALSE);
+	if ((flag == RB && last == RRBCK) || (last == RBCK && flag == RB))
+		return (FALSE);
+	if ((flag == RA && last == RRACK) || (last == RACK && flag == RRA))
+		return (FALSE);
+	if ((flag == PB && last == PACK) || (flag == PA && last == PBCK))
+		return (FALSE);
+	return (TRUE);
 }
 
 void	move_return(t_moves *list, t_carray *sta, t_carray *stb)
@@ -80,7 +106,7 @@ void	move_return(t_moves *list, t_carray *sta, t_carray *stb)
 
 	if (list->len == 0)
 		return ;
-	flag = move_check(list->moves[list->len]);
+	flag = move_check(list->moves[list->len - 1]);
 	if (flag == SACK || flag == SSCK)
 		swap_a(sta, stb);
 	if (flag == SBCK || flag == SSCK)
