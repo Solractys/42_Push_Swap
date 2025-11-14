@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/13 20:54:44 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/14 16:48:22 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,36 @@ int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 	return (FALSE);
 }	
 
+void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
+{
+	int	len;
+//	int	ctrl;
+	int	idx;
+	int	counter;
+
+	counter = 0;
+//	ctrl = 4;
+	idx = sta->start;
+	len = sta->max;
+	while (idx < len)
+	{
+		while (counter-- > 0)
+			ft_printf("%s\n",ft_rev_rotate(sta, to_a));
+		if ((sta->stack[idx] & TOPAMASK) == TOPA)
+			ft_printf("%s\n", ft_swap(sta, to_a));
+		else if ((sta->stack[idx] & BOTAMASK) == BOTA)
+			ft_printf("%s\n", ft_rotate(sta, to_a));
+		else if ((sta->stack[idx] & BOTBMASK) == BOTB)
+		{
+			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
+			ft_printf("%s\n", ft_rotate(stb, to_b));
+		}
+		else if ((sta->stack[idx] & TOPBMASK) == TOPB)
+			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
+		idx++;
+	}	
+}
+
 void	ft_push_swap(t_carray *stack)
 {
 	t_moves	*list;
@@ -160,8 +190,9 @@ void	ft_push_swap(t_carray *stack)
 	list = ft_move_add(stack->len);
 	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
 	st_b = ft_new_stack(num, 0, stack->len);
-	ft_push_alg(list, stack, st_b);
-	ft_print_move(list);
+//	ft_push_alg(list, stack, st_b);
+//	ft_print_move(list);
+	ft_push_rad(stack, st_b, 'a', 'b');
 	ft_print_list(stack, stack->len);
 //	ft_print_list(st_b, st_b->len);
 	ft_push_free(st_b->stack, st_b);

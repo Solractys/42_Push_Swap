@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:06:56 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/12 17:13:24 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/14 16:49:14 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,24 @@ void	ft_push(t_carray *stack_a, t_carray *stack_b)
 		ft_swap_base(stack_a, stack_a->start, stack_b, stack_b->start);
 		ft_att_tcarray(stack_a, POS_DOWN, POS_KEEP, LEN_MINUS);
 }
+
+char	*ft_push_global(t_carray *src, t_carray *dest, char direction)
+{
+	char	*push;
+
+	if (src->len < 1)
+		return (NULL);
+	if (direction == 'b')
+		push = "pb";
+	else
+		push = "pa";
+	ft_att_tcarray(dest, POS_UP, POS_KEEP, LEN_ADD);
+	ft_swap_base(src, src->start, dest, dest->start);
+	ft_att_tcarray(src, POS_DOWN, POS_KEEP, LEN_MINUS);
+	return (push);
+}
 /*
-char	*ft_push(t_carray *stack_a, t_carray *stack_b, char direction)
+char	*ft_push_global(t_carray *stack_a, t_carray *stack_b, char direction)
 {
 	char	*push;
 

@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/13 16:00:51 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/14 16:55:47 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,18 @@ enum e_maskf
 	PACK = 66
 };
 
+enum e_stack
+{
+	TOPA,
+	BOTA,
+	BOTB,
+	TOPB,
+	TOPAMASK = 0b11111111,
+	BOTAMASK = 0b11111110,
+	BOTBMASK = 0b11111101,
+	TOPBMASK = 0b11111100
+};
+
 typedef struct s_moves
 {
 	int		len;
@@ -127,6 +139,7 @@ char		*ft_swap(t_carray *stack, char c);
 char		*swap_a(t_carray *sta, t_carray *stb);
 char		*swap_b(t_carray *sta, t_carray *stb);
 void		ft_push(t_carray *stack_a, t_carray *stack_b);
+char		*ft_push_global(t_carray *stack_a, t_carray *stack_b, char direction);
 char		*push_a(t_carray *sta, t_carray *stb);
 char		*push_b(t_carray *sta, t_carray *stb);
 char		*ft_rotate(t_carray *stack, char c);
