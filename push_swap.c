@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/12 20:27:08 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/13 20:54:44 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	ft_sorted(t_carray *stack)
 
 void	ft_moves(t_moves *m_list, char *mov)
 {
-	int	last;
-	int			bit_move;
+//	int	last;
+//	int			bit_move;
 
 	if (m_list->len == m_list->max - 1 || mov == NULL)
 		return ;
-	if (m_list->len == 0)
+/*	if (m_list->len == 0)
 		last = 0;
 	else
 		last = move_check(m_list->moves[m_list->len - 1]);
@@ -59,7 +59,8 @@ void	ft_moves(t_moves *m_list, char *mov)
 			m_list->moves[m_list->len - 1] = "ss";
 	}
 	if (!last || last == move_check(m_list->moves[m_list->len - 1]))
-		m_list->moves[m_list->len++] = mov;
+		m_list->moves[m_list->len++] = mov;*/
+	m_list->moves[m_list->len++] = mov;
 }
 
 int	ft_log(int len, int base)
@@ -90,7 +91,10 @@ t_moves	*ft_move_add(int llen)
 	t_moves	*list;
 	int		max;
 
-	max = llen * (1.155 * ft_log(llen, 2)) + 1;
+	if (llen < 4)
+		max = llen + 1;
+	else
+		max = llen * (1.12 * ft_log(llen, 2)) + 1;
 	list = malloc(sizeof(t_moves));
 	list->len = 0;
 	list->max = max;
@@ -114,20 +118,18 @@ int	ft_chunks(int len)
 
 int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 {
-//	int	chunks;
 	int		idx;
 	int		check;
 	char	*mov;
 	t_mfunc	ft;
 
-//	chunks = ft_chunks(sta->len);
-//	if (chunks > 3)
-//		ft_push_alg(list, sta, stb);
 	if (sta->len == sta->max && ft_sorted(sta) && stb->len == 0)
 		return (TRUE);
-	if (list->len == list->max - 1)
+	if (list->len == list->max - 1 || move_limit(list, sta))
 		return (FALSE);
 	idx = -1;
+	if (sta->max < 7)
+		idx++;
 	check = 0;
 	while (idx < TOTALMOVES - 1 && (!ft_sorted(sta) || stb->len != 0))
 	{
@@ -142,14 +144,9 @@ int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 		check = ft_push_alg(list, sta, stb);
 		if (check)
 			return (TRUE);
-		if (check == FALSE && !ft_sorted(sta))
+		if (check == FALSE)
 			move_return(list, sta, stb);
-//		else
-//			return (TRUE);
 	}
-//	ft_print_list(sta, sta->len);	
-//	ft_print_list(stb, stb->len);
-//	ft_print_move(list);
 	return (FALSE);
 }	
 
@@ -161,7 +158,7 @@ void	ft_push_swap(t_carray *stack)
 
 	num = ft_calloc(sizeof(int), stack->len);
 	list = ft_move_add(stack->len);
-//	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
+	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
 	st_b = ft_new_stack(num, 0, stack->len);
 	ft_push_alg(list, stack, st_b);
 	ft_print_move(list);

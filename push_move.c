@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:15:19 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/12 18:21:03 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/13 20:36:07 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,32 @@ int	move_dub(int mov, t_moves *list, t_carray *sta, t_carray *stb)
 	if ((flag == PB && last == PACK) || (flag == PA && last == PBCK))
 		return (FALSE);
 	return (TRUE);
+}
+
+int	move_limit(t_moves *list, t_carray *sta)
+{
+	int	flag;
+	int ctrl;
+	int	idx;
+	int	keep;
+
+	if (list->len == 0)
+		return (FALSE);
+	idx = list->len - 1;
+	ctrl = 0;
+	flag = move_check(list->moves[idx]);
+	keep = flag;
+	while (flag == keep)
+	{
+		idx--;
+		ctrl++;
+		if (idx < 0)
+			return (FALSE);
+		flag = move_check(list->moves[idx]);
+		if (ctrl > sta->max / 3 || ctrl > sta->len / 3)
+			return (TRUE);
+	}
+	return (FALSE);
 }
 
 void	move_return(t_moves *list, t_carray *sta, t_carray *stb)

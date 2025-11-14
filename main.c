@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:35 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/12 16:16:56 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/13 20:55:29 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void	ft_print_move(t_moves *list)
 	int	i;
 
 	i = 0;
-	ft_printf("\nList of Movements : ");
+	ft_printf("\nList of Movements : \n");
 	while (i < list->len)
 	{
 		ft_printf("%s\n", list->moves[i]);
