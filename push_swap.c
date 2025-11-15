@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/14 16:48:22 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/15 20:34:45 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 	if (list->len == list->max - 1 || move_limit(list, sta))
 		return (FALSE);
 	idx = -1;
-	if (sta->max < 7)
+	if (sta->max < 5)
 		idx++;
 	check = 0;
 	while (idx < TOTALMOVES - 1 && (!ft_sorted(sta) || stb->len != 0))
@@ -156,27 +156,65 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 //	int	ctrl;
 	int	idx;
 	int	counter;
+	int	elastic;
 
 	counter = 0;
+	elastic = 0;
 //	ctrl = 4;
 	idx = sta->start;
 	len = sta->max;
-	while (idx < len)
+	while (idx++ <= len)
 	{
-		while (counter-- > 0)
-			ft_printf("%s\n",ft_rev_rotate(sta, to_a));
-		if ((sta->stack[idx] & TOPAMASK) == TOPA)
+		if ((sta->stack[sta->start] & BITMASK) == TOPA)
+		{
 			ft_printf("%s\n", ft_swap(sta, to_a));
-		else if ((sta->stack[idx] & BOTAMASK) == BOTA)
+			if ((sta->stack[ft_next(sta, sta->start)] & BITMASK) == TOPA)
+				while ((sta->stack[sta->start] & BITMASK) == TOPA)
+				{
+					ft_printf("%s\n", ft_rotate(sta, to_a));
+					counter++;
+					if (counter > 2)
+						idx++;
+				}
+		}
+		else if ((sta->stack[sta->start] & BITMASK) == BOTA)
+		{
+			if (counter > 0)
+			{
+				ft_printf("%s\n", ft_push_global(stb, sta, to_b));
+				while (counter > 0)
+				{
+					ft_printf("%s\n", ft_rev_rotate(sta, to_a));
+					elastic++;
+					counter--;
+				}
+				ft_printf("%s\n", ft_push_global(sta, stb, to_a));
+			}
 			ft_printf("%s\n", ft_rotate(sta, to_a));
-		else if ((sta->stack[idx] & BOTBMASK) == BOTB)
+			while (elastic > 0)
+			{
+				ft_printf("%s\n", ft_rotate(sta, to_a));
+				counter++;
+				elastic--;
+			}
+		}
+		else if ((sta->stack[sta->start] & BITMASK) == BOTB)
 		{
 			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
 			ft_printf("%s\n", ft_rotate(stb, to_b));
 		}
-		else if ((sta->stack[idx] & TOPBMASK) == TOPB)
+		else if ((sta->stack[sta->start] & BITMASK) == TOPB)
 			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
-		idx++;
+		if (counter > 0 && (sta->stack[sta->start] & BITMASK) == TOPA)
+			while (counter > 0)
+			{
+				ft_printf("%s\n", ft_rev_rotate(sta, to_a));
+				counter--;
+			}
+	}
+	while (stb->len > 0)
+	{
+		ft_printf("%s\n", ft_push_global(stb, sta, to_a));
 	}	
 }
 
@@ -191,10 +229,10 @@ void	ft_push_swap(t_carray *stack)
 	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
 	st_b = ft_new_stack(num, 0, stack->len);
 //	ft_push_alg(list, stack, st_b);
-//	ft_print_move(list);
 	ft_push_rad(stack, st_b, 'a', 'b');
+//	ft_print_move(list);
 	ft_print_list(stack, stack->len);
-//	ft_print_list(st_b, st_b->len);
+	ft_print_list(st_b, st_b->len);
 	ft_push_free(st_b->stack, st_b);
 	free(list->moves);
 	free(list);

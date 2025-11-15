@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/14 16:55:47 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/15 20:24:24 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,11 @@ enum e_maskf
 
 enum e_stack
 {
-	TOPA,
-	BOTA,
 	BOTB,
 	TOPB,
+	TOPA,
+	BOTA,
+	BITMASK = 0b11,
 	TOPAMASK = 0b11111111,
 	BOTAMASK = 0b11111110,
 	BOTBMASK = 0b11111101,
