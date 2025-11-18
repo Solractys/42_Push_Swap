@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 15:51:35 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/13 20:55:29 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/17 17:27:23 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_print_list(t_carray *stack, int len)
 		i++;
 		start = (stack->start + i) % stack->max;
 		if (i < len)
-			ft_printf(",");
+			ft_printf(" ");
 	}
 	ft_printf("]\n");
 }

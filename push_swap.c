@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/15 20:34:45 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/17 17:18:55 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 
 void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 {
-	int	len;
+//	int	len;
 //	int	ctrl;
 	int	idx;
 	int	counter;
@@ -161,20 +161,21 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 	counter = 0;
 	elastic = 0;
 //	ctrl = 4;
-	idx = sta->start;
-	len = sta->max;
-	while (idx++ <= len)
+	idx = 0;
+//	len = sta->max;
+	while (idx < sta->max)
 	{
 		if ((sta->stack[sta->start] & BITMASK) == TOPA)
 		{
 			ft_printf("%s\n", ft_swap(sta, to_a));
+			idx++;
 			if ((sta->stack[ft_next(sta, sta->start)] & BITMASK) == TOPA)
 				while ((sta->stack[sta->start] & BITMASK) == TOPA)
 				{
 					ft_printf("%s\n", ft_rotate(sta, to_a));
 					counter++;
-					if (counter > 2)
-						idx++;
+//					if (counter > 2)
+//						idx++;
 				}
 		}
 		else if ((sta->stack[sta->start] & BITMASK) == BOTA)
@@ -182,6 +183,7 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 			if (counter > 0)
 			{
 				ft_printf("%s\n", ft_push_global(stb, sta, to_b));
+				idx++;
 				while (counter > 0)
 				{
 					ft_printf("%s\n", ft_rev_rotate(sta, to_a));
@@ -202,9 +204,13 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 		{
 			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
 			ft_printf("%s\n", ft_rotate(stb, to_b));
+			idx++;
 		}
 		else if ((sta->stack[sta->start] & BITMASK) == TOPB)
+		{
 			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
+			idx++;
+		}
 		if (counter > 0 && (sta->stack[sta->start] & BITMASK) == TOPA)
 			while (counter > 0)
 			{
@@ -212,10 +218,10 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 				counter--;
 			}
 	}
-	while (stb->len > 0)
-	{
-		ft_printf("%s\n", ft_push_global(stb, sta, to_a));
-	}	
+//	while (stb->len > 0)
+//	{
+//		ft_printf("%s\n", ft_push_global(stb, sta, to_a));
+//	}	
 }
 
 void	ft_push_swap(t_carray *stack)

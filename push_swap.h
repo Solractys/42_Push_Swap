@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/15 20:24:24 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/17 15:38:14 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void		ft_push_swap(t_carray *stack);
 // 		Functions Utils
 // ============================================================= ||
 
+int			ft_atoi_push(const char *nptr, char **list, int *arg);
 int			ft_isspace(int c);
 int			ft_sorted(t_carray *stack);
 int			*ft_copy_better(int *list, int len);

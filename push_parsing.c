@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 13:54:57 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/07 17:22:25 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/17 15:41:07 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,18 @@ int	*ft_parsing(int argc, char **argv, int *len)
 	ft_digit_check(argv);
 	str = ft_rev_split(argc, argv, SPACE);
 	list = ft_split(str, SPACE);
+	free(str);
 	arg = ft_calloc(sizeof(int), ft_count_int(list) + 1);
 	if (arg == NULL)
 		return (NULL);
 	while (list[*len] != NULL)
 	{
-		temp = ft_atol(list[*len]);
+		temp = ft_atoi_push(list[*len], list, arg);
 		if (temp > MAX_INT || temp < MIN_INT)
 			break ;
 		arg[*len] = temp;
 		(*len)++;
 	}
-	free(str);
 	ft_str_free(list);
 	if (temp > MAX_INT || temp < MIN_INT)
 		ft_error(arg, NULL, TRUE);

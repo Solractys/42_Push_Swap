@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_utils.c                                       :+:      :+:    :+:   */
+/*   push_parsing_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 13:55:40 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/17 14:45:44 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/17 15:23:30 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_error(void *arg, t_carray *stack, int check)
 {
 	ft_push_free(arg, stack);
 	if (check)
-		ft_printf("Error\n");
+		write(2, "Error\n", 6);
 	exit(TRUE);
 }
 
