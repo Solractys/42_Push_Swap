@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/17 15:38:14 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/18 12:37:46 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int			*ft_copy_better(int *list, int len);
 void		ft_error(void *arg, t_carray *stack, int check);
 void		ft_push_free(int *arg, t_carray *stack);
 void		ft_str_free(char **list);
+void		bit_shift(t_carray *sta);
 
 //		Math Functions
 // ============================================================= ||

@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:50:00 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/17 17:18:55 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/18 18:06:37 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	ft_sorted(t_carray *stack)
 	int	ctrl;
 	int start;
 
+	if (stack->len == 0)
+		return (TRUE);
 	ctrl = 0;
 	start = stack->start;
 	temp = stack->stack[start];
-	if (stack->len == 0)
-		return (FALSE);
 	while (ctrl < stack->len - 1)
 	{
 		ctrl++;
@@ -163,27 +163,27 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 //	ctrl = 4;
 	idx = 0;
 //	len = sta->max;
-	while (idx < sta->max)
+	while (idx < sta->max && sta->len != 0)
 	{
-		if ((sta->stack[sta->start] & BITMASK) == TOPA)
+		if ((sta->stack[sta->start] & BITMASK) == TOPA )
 		{
-			ft_printf("%s\n", ft_swap(sta, to_a));
-			idx++;
-			if ((sta->stack[ft_next(sta, sta->start)] & BITMASK) == TOPA)
-				while ((sta->stack[sta->start] & BITMASK) == TOPA)
-				{
-					ft_printf("%s\n", ft_rotate(sta, to_a));
-					counter++;
+			if ((sta->stack[ft_next(sta, sta->start)] & BITMASK) != TOPA)
+				ft_printf("%s\n", ft_swap(sta, to_a));
+			else if ((sta->stack[ft_next(sta, sta->start)] & BITMASK) == TOPA)
+//				while ((sta->stack[sta->start] & BITMASK) == TOPA)
+			{
+				ft_printf("%s\n", ft_rotate(sta, to_a));
+				counter++;
 //					if (counter > 2)
-//						idx++;
-				}
+				idx++;
+			}
+//			idx++;		
 		}
-		else if ((sta->stack[sta->start] & BITMASK) == BOTA)
+		if ((sta->stack[sta->start] & BITMASK) == BOTA)
 		{
 			if (counter > 0)
 			{
 				ft_printf("%s\n", ft_push_global(stb, sta, to_b));
-				idx++;
 				while (counter > 0)
 				{
 					ft_printf("%s\n", ft_rev_rotate(sta, to_a));
@@ -193,6 +193,7 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 				ft_printf("%s\n", ft_push_global(sta, stb, to_a));
 			}
 			ft_printf("%s\n", ft_rotate(sta, to_a));
+			idx++;
 			while (elastic > 0)
 			{
 				ft_printf("%s\n", ft_rotate(sta, to_a));
@@ -200,28 +201,47 @@ void	ft_push_rad(t_carray *sta, t_carray *stb, char to_a, char to_b)
 				elastic--;
 			}
 		}
-		else if ((sta->stack[sta->start] & BITMASK) == BOTB)
+		if ((sta->stack[sta->start] & BITMASK) == BOTB)
 		{
 			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
-			ft_printf("%s\n", ft_rotate(stb, to_b));
+			if (stb->len > 1)
+				ft_printf("%s\n", ft_rotate(stb, to_b));
 			idx++;
 		}
-		else if ((sta->stack[sta->start] & BITMASK) == TOPB)
+		if ((sta->stack[sta->start] & BITMASK) == TOPB)
 		{
 			ft_printf("%s\n", ft_push_global(sta, stb, to_b));
 			idx++;
 		}
-		if (counter > 0 && (sta->stack[sta->start] & BITMASK) == TOPA)
+/*		if (counter > 0 && (sta->stack[sta->start] & BITMASK) == TOPA)
 			while (counter > 0)
 			{
 				ft_printf("%s\n", ft_rev_rotate(sta, to_a));
 				counter--;
-			}
+			}*/
 	}
-//	while (stb->len > 0)
-//	{
-//		ft_printf("%s\n", ft_push_global(stb, sta, to_a));
-//	}	
+	while (stb->len > 0)
+	{
+		if ((stb->stack[stb->start] & BITMASK) == BOTB)
+		{
+			ft_printf("%s\n", ft_rev_rotate(stb, to_b));
+			ft_printf("%s\n", ft_push_global(stb, sta, to_a));
+		}
+		else
+			ft_printf("%s\n", ft_push_global(stb, sta, to_a));
+	}	
+}
+
+void	bit_shift(t_carray *sta)
+{
+	int	idx;
+
+	idx = 0;
+	while (idx < sta->max)
+	{
+		sta->stack[idx] >>= 2;
+		idx++;
+	}
 }
 
 void	ft_push_swap(t_carray *stack)
@@ -235,7 +255,11 @@ void	ft_push_swap(t_carray *stack)
 	ft_printf("\nLIST MOVE SIZE = %d\n", list->max);
 	st_b = ft_new_stack(num, 0, stack->len);
 //	ft_push_alg(list, stack, st_b);
-	ft_push_rad(stack, st_b, 'a', 'b');
+	while (!ft_sorted(stack))
+	{
+		ft_push_rad(stack, st_b, 'a', 'b');
+		bit_shift(stack);
+	}
 //	ft_print_move(list);
 	ft_print_list(stack, stack->len);
 	ft_print_list(st_b, st_b->len);
