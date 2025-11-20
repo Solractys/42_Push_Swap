@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 14:50:44 by buehara           #+#    #+#             */
-/*   Updated: 2025/10/20 16:49:23 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/20 19:53:14 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_in_sort(int *list, int len)
 {
-	int in;
-	int out;
+	int	in;
+	int	out;
 	int	temp;
 
 	if (len > 1)
@@ -35,4 +35,3 @@ void	ft_in_sort(int *list, int len)
 		}
 	}
 }
-

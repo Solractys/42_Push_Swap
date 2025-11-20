@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 13:54:57 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/17 15:41:07 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/19 17:13:53 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,19 @@ int	ft_digit_check(char **str)
 {
 	int		ct;
 	int		i;
+	int		null;
 	char	ch;
 
 	ct = 1;
 	while (str[ct])
 	{
 		i = 0;
+		null = 0;
 		while (str[ct][i])
 		{
 			ch = str[ct][i];
+			if (ft_isdigit(ch))
+				null = 1;
 			if (!ft_isdigit(ch) && !ft_isspace(ch) && !ft_issignal(ch))
 				ft_error(NULL, (t_carray *) NULL, TRUE);
 			if (ft_issignal(ch) && ft_issignal(str[ct][i+1]))
@@ -42,6 +46,8 @@ int	ft_digit_check(char **str)
 				ft_error(NULL, (t_carray *) NULL, TRUE);
 			i++;
 		}
+		if (!null)
+			ft_error(NULL, (t_carray *) NULL, TRUE);
 		ct++;
 	}
 	return (FALSE);

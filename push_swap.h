@@ -6,7 +6,7 @@
 /*   By: buehara <buehara@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 19:06:47 by buehara           #+#    #+#             */
-/*   Updated: 2025/11/18 12:37:46 by buehara          ###   ########.fr       */
+/*   Updated: 2025/11/20 15:53:09 by buehara          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,9 @@ enum e_maskf
 
 enum e_stack
 {
-	BOTB,
-	TOPB,
-	TOPA,
-	BOTA,
-	BITMASK = 0b11,
+	STB,
+	STA,
+	BITMASK = 0b1,
 	TOPAMASK = 0b11111111,
 	BOTAMASK = 0b11111110,
 	BOTBMASK = 0b11111101,
@@ -118,7 +116,7 @@ void		ft_push_swap(t_carray *stack);
 
 int			ft_atoi_push(const char *nptr, char **list, int *arg);
 int			ft_isspace(int c);
-int			ft_sorted(t_carray *stack);
+int			ft_sorted(t_carray *stack, int(*f)(int, int));
 int			*ft_copy_better(int *list, int len);
 void		ft_error(void *arg, t_carray *stack, int check);
 void		ft_push_free(int *arg, t_carray *stack);
@@ -154,7 +152,7 @@ char		*rev_rotate_b(t_carray *sta, t_carray *stb);
 void		ft_rotate_base(t_carray *stk, char direction);
 void		ft_swap_base(t_carray *stk_a, int idx_a, \
 						t_carray *stk_b, int idx_b);
-int		ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
+int			ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
 
 // 		Functions Parsing
 // ============================================================= ||
