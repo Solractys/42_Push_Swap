@@ -13,9 +13,9 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include "libft/includes/libft.h"
-# include "libft/includes/get_next_line.h"
-# include "libft/includes/ft_printf.h"
+# include "libft/libft.h"
+# include "gnl/get_next_line.h"
+# include "printf/ft_printf.h"
 # include <unistd.h>
 # include <stdlib.h>
 
@@ -35,25 +35,25 @@ enum e_stackPosition
 
 enum e_maskr
 {
-    PZERO = 64,
-    RZERO = 32,
-    RSEC = 16,
-    SZERO = 8,
-    DOUBLE = 4,
-    AMASK = 2,
-    BMASK = 1
+	PZERO = 64,
+	RZERO = 32,
+	RSEC = 16,
+	SZERO = 8,
+	DOUBLE = 4,
+	AMASK = 2,
+	BMASK = 1
 };
-	
+
 enum e_maska
 {
 	PB,
-    SA,
-    RA,
-    RRA,
-    SB,
-    RB,
-    RRB,
-    PA,
+	SA,
+	RA,
+	RRA,
+	SB,
+	RB,
+	RRB,
+	PA,
 	TOTALMOVES
 };
 
@@ -99,8 +99,7 @@ typedef struct s_carray
 	int	*stack;
 }				t_carray;
 
-typedef char	*(*t_mfunc)(t_carray *stack_a, t_carray *stack_b); 
-
+typedef char	*(*t_mfunc)(t_carray *stack_a, t_carray *stack_b);
 // 		Test Functions
 void		ft_test(t_carray *stack, int argc);
 void		ft_print_array(t_carray *stack, char *c);
@@ -108,15 +107,13 @@ void		ft_print_list(t_carray *stack, int len);
 
 //		MAIN
 // ============================================================= ||
-
 void		ft_push_swap(t_carray *stack);
 
 // 		Functions Utils
 // ============================================================= ||
-
 int			ft_atoi_push(const char *nptr, char **list, int *arg);
 int			ft_isspace(int c);
-int			ft_sorted(t_carray *stack, int(*f)(int, int));
+int			ft_sorted(t_carray *stack, int (*f)(int, int));
 int			*ft_copy_better(int *list, int len);
 void		ft_error(void *arg, t_carray *stack, int check);
 void		ft_push_free(int *arg, t_carray *stack);
@@ -125,12 +122,10 @@ void		bit_shift(t_carray *sta);
 
 //		Math Functions
 // ============================================================= ||
-
 int			ft_log(int len, int base);
 
 // 		Functions Stacks
 // ============================================================= ||
-
 int			ft_before(t_carray *stack);
 int			ft_next(t_carray *stack, int index);
 void		ft_att_tcarray(t_carray *stack, int start, int end, int len);
@@ -140,7 +135,8 @@ char		*ft_swap(t_carray *stack, char c);
 char		*swap_a(t_carray *sta, t_carray *stb);
 char		*swap_b(t_carray *sta, t_carray *stb);
 void		ft_push(t_carray *stack_a, t_carray *stack_b);
-char		*ft_push_global(t_carray *stack_a, t_carray *stack_b, char direction);
+char		*ft_push_global(t_carray *stack_a,
+				t_carray *stack_b, char direction);
 char		*push_a(t_carray *sta, t_carray *stb);
 char		*push_b(t_carray *sta, t_carray *stb);
 char		*ft_rotate(t_carray *stack, char c);
@@ -150,8 +146,8 @@ char		*ft_rev_rotate(t_carray *stack, char c);
 char		*rev_rotate_a(t_carray *sta, t_carray *stb);
 char		*rev_rotate_b(t_carray *sta, t_carray *stb);
 void		ft_rotate_base(t_carray *stk, char direction);
-void		ft_swap_base(t_carray *stk_a, int idx_a, \
-						t_carray *stk_b, int idx_b);
+void		ft_swap_base(t_carray *stk_a, int idx_a,
+				t_carray *stk_b, int idx_b);
 int			ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb);
 
 // 		Functions Parsing

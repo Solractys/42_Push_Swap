@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "includes/push_swap.h"
 
 void	ft_push(t_carray *stack_a, t_carray *stack_b)
 {
-		ft_att_tcarray(stack_b, POS_UP, POS_KEEP, LEN_ADD);
-		ft_swap_base(stack_a, stack_a->start, stack_b, stack_b->start);
-		ft_att_tcarray(stack_a, POS_DOWN, POS_KEEP, LEN_MINUS);
+	ft_att_tcarray(stack_b, POS_UP, POS_KEEP, LEN_ADD);
+	ft_swap_base(stack_a, stack_a->start, stack_b, stack_b->start);
+	ft_att_tcarray(stack_a, POS_DOWN, POS_KEEP, LEN_MINUS);
 }
 
 char	*ft_push_global(t_carray *src, t_carray *dest, char direction)

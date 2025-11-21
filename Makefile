@@ -14,41 +14,16 @@
 # =========================================================================== ||
 
 NAME = push_swap
- 
-FLAGS = -Wall -Wextra -Werror -g3 -I.
-
+FLAGS = -Wall -Wextra -Werror -Iincludes -Iincludes/gnl -Iincludes/printf -Iincludes/libft -g3 -I.
 CC = cc
 
 
 #	Sources
 # =========================================================================== ||
 
-SRCS = \
-	push_atoi.c				\
-	push_swap.c				\
-	push_swap_base.c		\
-	push_stack.c			\
-	push_rotate.c			\
-	push_parsing.c			\
-	push_parsing_utils.c	\
-	push_push.c				\
-	push_sort.c				\
-	push_sort_utils.c		\
-	push_merge.c			\
-	push_qsort.c			\
-	push_heap_sort.c		\
-	push_shell_sort.c		\
-	push_count_sort.c		\
-	push_radix_sort.c		\
-	push_rev_rotate.c		\
-	push_move.c				\
-	main.c
-	
+SRCS = $(shell find -name "*.c")
 
 OBJS = $(SRCS:.c=.o)
-
-LIBFT = libft/libft.a
-
 
 #	Recipes
 # ========================================================================== ||
@@ -57,8 +32,8 @@ all : $(NAME)
 	@echo "\n\tCompiling Complete!\n"
 
 
-$(NAME) : $(LIBFT) $(OBJS) 
-	@$(CC) $(OBJS) -Llibft -lft -o $@
+$(NAME) : $(OBJS) 
+	@$(CC) $(OBJS) -lft -o $@
 
 
 %.o : %.c
@@ -67,7 +42,8 @@ $(NAME) : $(LIBFT) $(OBJS)
 
 
 $(LIBFT) :
-	@$(MAKE) -sC libft/ all
+	@$(MAKE) -sC includes/libft/ all
+	@$(MAKE) -sC includes/printf/ all
 	@echo "\n\tCompiling -> "$@
 
 #	Clean
@@ -75,12 +51,14 @@ $(LIBFT) :
 
 clean:
 	@rm -fr $(OBJS)
-	@$(MAKE) -sC libft/ $@
+	@$(MAKE) -sC includes/libft/ $@
+	@$(MAKE) -sC includes/printf/ $@
 	@echo "\n\tDeleting OBJs"
 
 fclean : clean
 	@rm -f $(NAME)
-	@$(MAKE) -sC libft/ $@
+	@$(MAKE) -sC includes/libft/ $@
+	@$(MAKE) -sC includes/printf/ $@
 	@echo "\tDeleting Files"
 
 

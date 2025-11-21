@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "includes/push_swap.h"
 
 int	ft_sorted(t_carray *stack, int (*f)(int, int))
 {
@@ -114,7 +114,8 @@ int	ft_push_alg(t_moves *list, t_carray *sta, t_carray *stb)
 		return (FALSE);
 	idx[0] = -1;
 	idx[1] = 0;
-	while (idx[0]++ < TOTALMOVES - 1 && (!ft_sorted(sta, ft_bigger) || stb->len != 0))
+	while (idx[0]++ < TOTALMOVES - 1 && (!ft_sorted(sta, ft_bigger)
+				|| stb->len != 0))
 	{
 		if (!move_dub(idx[0], list, sta, stb))
 			continue ;

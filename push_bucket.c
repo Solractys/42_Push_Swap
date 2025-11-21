@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "./includes/push_swap.h"
 
-int	**ft_array_bucket(int len, int size, int qty)
+int	**ft_array_bucket(int size, int qty)
 {
-	int **bucket;
-	int idx;
+	int	**bucket;
+	int	idx;
 
 	idx = 0;
 	bucket = malloc(qty * sizeof(int *));
@@ -32,19 +32,18 @@ int	**ft_array_bucket(int len, int size, int qty)
 void	ft_bucket_sort(int **list, int len)
 {
 	int	**bucket;
-	int max;
-	int min;
+	int	max;
+	int	min;
 	int	mid;
-	int qty;
-
+	int	qty;
 
 	qty = len / 10;
 	if (qty < 5)
 		qty = 5;
 	else if (qty > 1000)
 		qty = 1000;
-	max = ft_find_xtreme(list, len, ft_bigger);
-	min = ft_find_xtreme(list, len, ft_smaller);
+	max = ft_find_xtreme(*list, len, ft_bigger);
+	min = ft_find_xtreme(*list, len, ft_smaller);
 	mid = (max - min) / qty + 1;
-	bucket = ft_array_bucket(len, mid, qty);
+	bucket = ft_array_bucket(mid, qty);
 }
